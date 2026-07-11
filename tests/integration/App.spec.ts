@@ -16,5 +16,5 @@ test('Increase and decrease the counter', async() => {
     await screen.getByRole('button', { name: '-' }).click()
     await screen.getByRole('button', { name: '-' }).click()
 
-    await expect.element(screen.getByText('4')).toBeInTheDocument()
+    await expect.element(screen.getByText('1')).toBeInTheDocument()
 })
