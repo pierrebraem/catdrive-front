@@ -10,8 +10,13 @@ export default defineConfig({
             enabled: true,
             headless: true,
             instances: [
-                { browser: 'chromium' }
+                { browser: 'chromium' },
+                { browser: 'firefox' },
+                { browser: 'webkit' },
             ]
+        },
+        coverage: {
+            provider: 'istanbul'
         }
     }
 })
