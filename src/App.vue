@@ -1,23 +1,21 @@
 <script setup lang="ts">
-import { ref } from "vue"
+import { ref, onMounted, type Ref } from 'vue'
+import type { User } from './types/users'
 
-const count = ref(0)
+const result: Ref<User | undefined> = ref()
 
-function increase() {
-  return count.value ++
+async function getTestDb() {
+  const response = await fetch(import.meta.env.VITE_API_URL + '/test-db')
+  const data: User[] = await response.json()
+  result.value = data[0]
 }
 
-function decrease() {
-  return count.value --
-}
+onMounted(async () => {
+  await getTestDb()
+})
 </script>
-
 <template>
-  <button @click="increase">
-    +
-  </button>
-  {{ count }}
-  <button @click="decrease">
-    -
-  </button>
+  {{ result?.firstname }}
+  {{ result?.lastname }}
+  {{ result?.email }}
 </template>
