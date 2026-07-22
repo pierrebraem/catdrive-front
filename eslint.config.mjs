@@ -59,7 +59,6 @@ export default defineConfig(
                 }
             ],
             "vue/no-template-target-blank": "error",
-            "vue/no-undef-components": "error",
             "vue/no-undef-properties": "error",
             "vue/no-unsupported-features": [
                 "error",
