@@ -2,11 +2,29 @@ import { defineConfig } from 'eslint/config'
 import js from '@eslint/js'
 import tseslint from 'typescript-eslint'
 import pluginVue from 'eslint-plugin-vue'
+import vueParser from 'vue-eslint-parser'
 
 export default defineConfig(
     {
         files: ['**/*.{js,ts,vue}'],
-        extends: [js.configs.recommended, tseslint.configs.recommended]
+        extends: [js.configs.recommended, tseslint.configs.recommended],
+        languageOptions: {
+            globals: {
+                "fetch": false
+            }
+        }
+    },
+    {
+        files: ['**/*.vue'],
+        languageOptions: {
+            parser: vueParser,
+            parserOptions: {
+                parser: tseslint.parser,
+                extraFileExtensions: ['.vue'],
+                ecmaVersion: 'latest',
+                sourceType: 'module'
+            }
+        },
     },
     {
         rules: {

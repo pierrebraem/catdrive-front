@@ -1,20 +1,26 @@
-import { expect, test } from 'vitest'
+import { expect, describe, it, vi } from 'vitest'
 import { render } from 'vitest-browser-vue'
 import App from '../../src/App.vue'
 
-test('Increase and decrease the counter', async() => {
-    const screen = render(App)
+describe('Basic API call', () => {
+    it('get users from auth and show data on front', async () => {
+        const fetch = vi.fn().mockResolvedValue({
+            status: 200,
+            json: async () => [
+                {
+                    firstname: 'Pierre',
+                    lastname: 'Braem',
+                    email: 'pierrebraem@test.com'
+                }
+            ]
+        } as Response)
 
-    await expect.element(screen.getByText('0')).toBeInTheDocument()
+        vi.stubGlobal('fetch', fetch)
 
-    await screen.getByRole('button', { name: '+' }).click()
-    await screen.getByRole('button', { name: '+' }).click()
-    await screen.getByRole('button', { name: '+' }).click()
+        const screen = render(App)
+        const baseUrl = import.meta.env.VITE_API_URL
 
-    await expect.element(screen.getByText('3')).toBeInTheDocument()
-
-    await screen.getByRole('button', { name: '-' }).click()
-    await screen.getByRole('button', { name: '-' }).click()
-
-    await expect.element(screen.getByText('1')).toBeInTheDocument()
+        expect(fetch).toHaveBeenCalledWith(baseUrl + '/test-db')
+        await expect.element(screen.getByText('Pierre Braem pierrebraem@test.com')).toBeInTheDocument()
+    })
 })
